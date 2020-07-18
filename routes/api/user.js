@@ -135,4 +135,28 @@ router.patch("/debit/:id", async (req, res) => {
   }
 });
 
+// @route PATCH api/users
+// @desc Debit a user
+// @access Public
+
+router.patch("/debit/amount/:id", async (req, res) => {
+  try {
+    const amount = req.body;
+    const user = await User1.findById(req.params.id).select("-password");
+    console.log(user);
+    let oldBalance = user.wallet;
+    let credit = amount;
+    let newBalance = parseFloat(oldBalance) - parseFloat(credit);
+    console.log(newBalance.toFixed(1));
+    user.wallet = newBalance;
+    await user.save();
+    return res
+      .status(200)
+      .json({ status: 200, message: "User credited successfully", user });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
