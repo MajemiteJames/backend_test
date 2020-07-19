@@ -37,7 +37,7 @@ function uploadUser(event) {
     return false;
   }
 
-  //     swal('Please wait...');
+  swal("Please wait...");
 
   const url = "https://backend-tests1.herokuapp.com/api/users/single";
 
@@ -78,4 +78,73 @@ function uploadUser(event) {
       swal.close();
       console.log(e);
     });
+}
+
+function creditUser(event) {
+  event.preventDefault();
+  let amount = document.getElementById("creditInputAmount").value;
+  let user_id = document.getElementById("user_id").innerHTML;
+  console.log(amount, user_id);
+  if (amount == "") {
+    swal({
+      title: "Error Authenticating",
+      text: "Please provide the required credentials",
+      icon: "warning",
+      timer: 3100,
+    });
+    return false;
+  }
+
+  // swal("Please wait...");
+
+  const url =
+    "https://backend-tests1.herokuapp.com/api/users/credit/amount/" + user_id;
+
+  let credit = amount;
+  var request = new Request(url, {
+    method: "PATCH",
+    body: JSON.stringify(credit),
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  });
+
+  fetch(request)
+    .then(async (res) => {
+      var resp = await res.json();
+      console.log(resp);
+      if (resp.status == 201) {
+        swal({
+          title: "User Created Succesfully",
+          text: `User Registration`,
+          icon: "info",
+          timer: 3500,
+        });
+      }
+    })
+    .catch((e) => {
+      swal.close();
+      console.log(e);
+    });
+}
+
+function debitUser(event) {
+  event.preventDefault();
+  let debitAmount = document.getElementById("debitAmountBtn").value;
+  let user_id = document.getElementById("user_id").innerHTML;
+  console.log(debitAmount, user_id);
+  if (debitAmount == "") {
+    swal({
+      title: "Error Authenticating",
+      text: "Please provide the required credentials",
+      icon: "warning",
+      timer: 3100,
+    });
+    return false;
+  }
+
+  swal("Please wait...");
+
+  const url =
+    "https://backend-tests1.herokuapp.com/api/users/debit/amount/" + user_id;
 }
