@@ -67,7 +67,7 @@ router.post(
           .status(404)
           .json({ status: 404, errors: [{ msg: "User already exist" }] });
       }
-      user = new User({
+      user = new User1({
         firstName,
         lastName,
         email,
