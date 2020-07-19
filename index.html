@@ -64,12 +64,16 @@
             </div>
             <button
               type="submit"
-              class="btn btn-primary"
+              class="btn btn-success"
               onclick="uploadUser(event)"
             >
               Submit
             </button>
           </form>
+          <small id="Help" class="form-text text-muted text-warning"
+            >*HINT: Kindly create a user to view details on the right section
+            then proced to credit or debit that user</small
+          >
         </div>
         <div class="col-sm-6">
           <div class="container">
@@ -85,7 +89,7 @@
             <div class="income">
               <button
                 type="submit"
-                class="btn btn-primary"
+                class="btn btn-info"
                 data-target="#creditBackdrop"
                 data-toggle="modal"
               >
@@ -94,7 +98,7 @@
 
               <button
                 type="submit"
-                class="btn btn-primary"
+                class="btn btn-danger"
                 data-target="#debitBackdrop"
                 data-toggle="modal"
               >
@@ -150,7 +154,7 @@
               </button>
               <button
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-info"
                 id="creditAmountBtn"
                 onclick="creditUser(event)"
               >
@@ -206,7 +210,7 @@
               </button>
               <button
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-danger"
                 id="debitAmountBtn"
                 onclick="debitUser(event)"
               >

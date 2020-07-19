@@ -107,6 +107,16 @@ function creditUser(event) {
     return false;
   }
 
+  if (user_id == "") {
+    swal({
+      title: "Error Authenticating",
+      text: "Please create a user first",
+      icon: "warning",
+      timer: 3500,
+    });
+    return false;
+  }
+
   swal("Please wait...");
 
   const url =
@@ -163,6 +173,16 @@ function debitUser(event) {
       text: "Please provide the required credentials",
       icon: "warning",
       timer: 3100,
+    });
+    return false;
+  }
+
+  if (user_id == "") {
+    swal({
+      title: "Error Authenticating",
+      text: "Please create a user first",
+      icon: "warning",
+      timer: 3500,
     });
     return false;
   }
