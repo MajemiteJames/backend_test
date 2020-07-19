@@ -60,20 +60,22 @@ function uploadUser(event) {
     .then(async (res) => {
       var resp = await res.json();
       console.log(resp);
-      if (resp.status == 200) {
+      if (resp.status == 201) {
         swal({
           title: "User Created Succesfully",
           text: `User Registration`,
           icon: "info",
           timer: 3500,
         });
+        document.getElementById("user_id").innerHTML = resp.user._id;
+        document.getElementById("user_first").innerHTML = resp.user.firstName;
+        document.getElementById("user_last").innerHTML = resp.user.lastName;
+        document.getElementById("user_email").innerHTML = resp.user.email;
+        document.getElementById("user_wallet").innerHTML = resp.user.wallet;
       }
     })
     .catch((e) => {
       swal.close();
       console.log(e);
     });
-  //     document.getElementById('exampleInputEmail1').value = "";
-  //     document.getElementById('InputPassword1').value = "";
-  //     document.getElementById('InputPasswordConfrim').value = "";
 }
