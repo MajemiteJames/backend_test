@@ -72,6 +72,18 @@ function uploadUser(event) {
         document.getElementById("user_last").innerHTML = resp.user.lastName;
         document.getElementById("user_email").innerHTML = resp.user.email;
         document.getElementById("user_wallet").innerHTML = resp.user.wallet;
+        document.getElementById(
+          "header"
+        ).innerHTML = `User with name: ${resp.user.firstName} was Created`;
+      }
+      if (resp.status == 404) {
+        swal({
+          title: "User Creation Status",
+          text: `User already exist`,
+          icon: "info",
+          timer: 3500,
+        });
+        return false;
       }
     })
     .catch((e) => {
@@ -95,15 +107,18 @@ function creditUser(event) {
     return false;
   }
 
-  // swal("Please wait...");
+  swal("Please wait...");
 
   const url =
     "https://backend-tests1.herokuapp.com/api/users/credit/amount/" + user_id;
 
-  let credit = amount;
+  let creditAmount = {
+    amount: amount,
+  };
+
   var request = new Request(url, {
     method: "PATCH",
-    body: JSON.stringify(credit),
+    body: JSON.stringify(creditAmount),
     headers: new Headers({
       "Content-Type": "application/json",
     }),
@@ -113,13 +128,22 @@ function creditUser(event) {
     .then(async (res) => {
       var resp = await res.json();
       console.log(resp);
-      if (resp.status == 201) {
+      if (resp.status == 200) {
         swal({
-          title: "User Created Succesfully",
-          text: `User Registration`,
+          title: "User Credited Succesfully",
+          text: `User Credited`,
           icon: "info",
           timer: 3500,
         });
+        document.getElementById("user_id").innerHTML = resp.user._id;
+        document.getElementById("user_first").innerHTML = resp.user.firstName;
+        document.getElementById("user_last").innerHTML = resp.user.lastName;
+        document.getElementById("user_email").innerHTML = resp.user.email;
+        document.getElementById("user_wallet").innerHTML = resp.user.wallet;
+        document.getElementById(
+          "header"
+        ).innerHTML = `Credit done on ${resp.user.firstName} Wallet`;
+        document.getElementById("creditInputAmount").value = "";
       }
     })
     .catch((e) => {
@@ -130,7 +154,7 @@ function creditUser(event) {
 
 function debitUser(event) {
   event.preventDefault();
-  let debitAmount = document.getElementById("debitAmountBtn").value;
+  let debitAmount = document.getElementById("debitInputAmount").value;
   let user_id = document.getElementById("user_id").innerHTML;
   console.log(debitAmount, user_id);
   if (debitAmount == "") {
@@ -147,4 +171,43 @@ function debitUser(event) {
 
   const url =
     "https://backend-tests1.herokuapp.com/api/users/debit/amount/" + user_id;
+
+  let debitAmountVal = {
+    amount: debitAmount,
+  };
+
+  var request = new Request(url, {
+    method: "PATCH",
+    body: JSON.stringify(debitAmountVal),
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  });
+
+  fetch(request)
+    .then(async (res) => {
+      var resp = await res.json();
+      console.log(resp);
+      if (resp.status == 200) {
+        swal({
+          title: "User Debited Succesfully",
+          text: `User Debited`,
+          icon: "info",
+          timer: 3500,
+        });
+        document.getElementById("user_id").innerHTML = resp.user._id;
+        document.getElementById("user_first").innerHTML = resp.user.firstName;
+        document.getElementById("user_last").innerHTML = resp.user.lastName;
+        document.getElementById("user_email").innerHTML = resp.user.email;
+        document.getElementById("user_wallet").innerHTML = resp.user.wallet;
+        document.getElementById(
+          "header"
+        ).innerHTML = `Debit done on ${resp.user.firstName} Wallet`;
+        document.getElementById("debitInputAmount").value = "";
+      }
+    })
+    .catch((e) => {
+      swal.close();
+      console.log(e);
+    });
 }
