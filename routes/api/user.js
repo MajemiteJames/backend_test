@@ -142,7 +142,7 @@ router.patch("/debit/:id", async (req, res) => {
 
 router.patch("/debit/amount/:id", async (req, res) => {
   try {
-    const amount = req.body;
+    const { amount } = req.body;
     const user = await User1.findById(req.params.id).select("-password");
 
     let oldBalance = user.wallet;
@@ -166,13 +166,15 @@ router.patch("/debit/amount/:id", async (req, res) => {
 
 router.patch("/credit/amount/:id", async (req, res) => {
   try {
-    const amount = req.body;
+    const { amount } = req.body;
     const user = await User1.findById(req.params.id).select("-password");
 
     let oldBalance = user.wallet;
     let credit = amount;
+
     let newBalance = parseFloat(oldBalance) + parseFloat(credit);
     user.wallet = newBalance;
+
     await user.save();
     return res
       .status(200)
