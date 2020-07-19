@@ -78,6 +78,7 @@ router.post(
       res.status(201).send({
         status: 201,
         msg: "users created successfully",
+        user,
       });
     } catch (error) {
       console.error(error.message);
