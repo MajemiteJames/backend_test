@@ -96,11 +96,11 @@ router.patch("/credit/:id", async (req, res) => {
   //   console.log(wallet);
   try {
     const user = await User1.findById(req.params.id).select("-password");
-    console.log(user);
+
     let oldBalance = user.wallet;
     let credit = faker.finance.amount(6000, 10000, 4);
     let newBalance = parseFloat(oldBalance) + parseFloat(credit);
-    console.log(newBalance.toFixed(1));
+
     user.wallet = newBalance;
     await user.save();
     return res
@@ -119,11 +119,11 @@ router.patch("/credit/:id", async (req, res) => {
 router.patch("/debit/:id", async (req, res) => {
   try {
     const user = await User1.findById(req.params.id).select("-password");
-    console.log(user);
+
     let oldBalance = user.wallet;
     let credit = faker.finance.amount(6000, 10000, 4);
     let newBalance = parseFloat(oldBalance) - parseFloat(credit);
-    console.log(newBalance.toFixed(1));
+
     user.wallet = newBalance;
     await user.save();
     return res
@@ -143,11 +143,34 @@ router.patch("/debit/amount/:id", async (req, res) => {
   try {
     const amount = req.body;
     const user = await User1.findById(req.params.id).select("-password");
-    console.log(user);
+
     let oldBalance = user.wallet;
     let credit = amount;
     let newBalance = parseFloat(oldBalance) - parseFloat(credit);
-    console.log(newBalance.toFixed(1));
+
+    user.wallet = newBalance;
+    await user.save();
+    return res
+      .status(200)
+      .json({ status: 200, message: "User credited successfully", user });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route PATCH api/users
+// @descCredit a user
+// @access Public
+
+router.patch("/credit/amount/:id", async (req, res) => {
+  try {
+    const amount = req.body;
+    const user = await User1.findById(req.params.id).select("-password");
+
+    let oldBalance = user.wallet;
+    let credit = amount;
+    let newBalance = parseFloat(oldBalance) + parseFloat(credit);
     user.wallet = newBalance;
     await user.save();
     return res
