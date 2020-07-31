@@ -49,7 +49,7 @@ router.post(
 
 router.get("/lastentry/", async (req, res) => {
   try {
-    const users = await User1.find().sort({ datetime: -1 }).limit(1);
+    const users = await User1.find().sort({ datetime: 0 }).limit(1);
     res.json(users);
   } catch (err) {
     console.log(err.message);
