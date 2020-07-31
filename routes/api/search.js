@@ -44,6 +44,20 @@ router.post(
 );
 
 // @route GET api/search
+// @desc get user sorted base on last entry
+// @access Public
+
+router.get("/lastentry/", async (req, res) => {
+  try {
+    const users = await User1.find().sort({ datetime: -1 }).limit(1);
+    res.json(users);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route GET api/search
 // @desc get user sorted out by wallet amount
 // @access Public
 
